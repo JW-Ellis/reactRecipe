@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 const App = () => {
-  const APP_ID = process.env.APP_ID;
-  const APP_KEY = process.env.APP_KEY;
-
-  const exampleReq = `https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`;
-
-  const [counter, setCounter] = useState(0);
+  const AP_ID = process.env.REACT_APP_API_ID;
+  const AP_KEY = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    console.log("Effect ran");
-  });
+    getRecipies();
+  }, []);
+
+  const getRecipies = async () => {
+    const response = await fetch(
+      `https://api.edamam.com/search?q=chicken&app_id=${AP_ID}&app_key=${AP_KEY}`
+    );
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <div className="App">
@@ -21,7 +25,6 @@ const App = () => {
           search
         </button>
       </form>
-      <h1 onClick={() => setCounter(counter + 1)}>{counter}</h1>
     </div>
   );
 };
