@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Recipe from "./Recipe";
 import "./App.css";
 
 const App = () => {
   const AP_ID = process.env.REACT_APP_API_ID;
   const AP_KEY = process.env.REACT_APP_API_KEY;
+
+  const [recipies, setRecipies] = useState([]);
 
   useEffect(() => {
     getRecipies();
@@ -14,7 +17,8 @@ const App = () => {
       `https://api.edamam.com/search?q=chicken&app_id=${AP_ID}&app_key=${AP_KEY}`
     );
     const data = await response.json();
-    console.log(data);
+    setRecipies(data.hits);
+    console.log(data.hits);
   };
 
   return (
@@ -22,9 +26,12 @@ const App = () => {
       <form className="search-form">
         <input className="search-bar" type="text"></input>
         <button className="search-button" type="submit">
-          search
+          Search
         </button>
       </form>
+      {recipies.map(recipe => (
+        <Recipe />
+      ))}
     </div>
   );
 };
