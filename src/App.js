@@ -8,14 +8,15 @@ const App = () => {
 
   const [recipies, setRecipies] = useState([]);
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("Apple");
 
   useEffect(() => {
     getRecipies();
-  }, []);
+  }, [query]);
 
   const getRecipies = async () => {
     const response = await fetch(
-      `https://api.edamam.com/search?q=chicken&app_id=${AP_ID}&app_key=${AP_KEY}`
+      `https://api.edamam.com/search?q=${query}&app_id=${AP_ID}&app_key=${AP_KEY}`
     );
     const data = await response.json();
     setRecipies(data.hits);
@@ -26,9 +27,15 @@ const App = () => {
     setSearch(e.target.value);
   };
 
+  const getSearch = e => {
+    e.preventDefault();
+    setQuery(search);
+    setSearch("");
+  };
+
   return (
     <div className="App">
-      <form className="search-form">
+      <form onSubmit={getSearch} className="search-form">
         <input
           className="search-bar"
           type="text"
